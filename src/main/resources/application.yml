@@ -35,7 +35,6 @@ jasypt:
 spring:
   #数据库
   datasource:
-    
     #账号配置
     url: jdbc:mysql://120.77.42.199:3306/bbs-pro?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&zeroDateTimeBehavior=CONVERT_TO_NULL&allowPublicKeyRetrieval=true&useSSL=false&rewriteBatchedStatements=true
     username: root
@@ -78,7 +77,7 @@ spring:
   servlet:
     multipart:
       max-file-size: 1000MB #文件上传单个数据大小
-      max-request-size: 1000MB ##文件上传总数据大小
+      max-request-size: 1000MB #文件上传总数据大小
 
 
  # mvc: 
