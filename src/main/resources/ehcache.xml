@@ -1,0 +1,888 @@
+<config xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+        xmlns='http://www.ehcache.org/v3'
+        xsi:schemaLocation="http://www.ehcache.org/v3 http://www.ehcache.org/schema/ehcache-core.xsd">
+ 
+    <!--指定缓存持久化目录-->
+    <persistence directory="${java.io.tmpdir}/ehcache-data"/>
+
+	<!-- 缓存模版 由uses-template属性引用此模板-->
+    <cache-template name="template">
+    	<!--键值对被声明为字符串类型，如果没有指明，默认是Object类型。
+        <key-type>java.lang.String</key-type>-->
+        <value-type copier="cms.web.action.cache.EhcacheCopyStrategy">java.lang.Object</value-type>
+    </cache-template>
+
+
+
+	<!-- 缩略图 (更新一个全部刷新)  -->	
+    <cache alias="thumbnailServiceBean_cache" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">3600</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">1</heap>
+        </resources>
+    </cache>
+	<!-- 系统设置 - 查询系统设置  -->	
+    <cache alias="settingServiceBean_cache" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">3600</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">1</heap>
+        </resources>
+    </cache>
+	<!-- 模板 (更新一个全部刷新)  -->	
+    <cache alias="templateServiceBean_cache" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">3600</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">90000</heap>
+        </resources>
+    </cache>
+	<!-- 会员等级 (更新一个全部刷新)   -->	
+    <cache alias="userGradeServiceBean_cache" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">3600</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">1</heap>
+        </resources>
+    </cache>
+	<!-- 会员角色 (更新一个全部刷新)  -->	
+    <cache alias="userRoleServiceBean_cache" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">3600</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">1</heap>
+        </resources>
+    </cache>
+	<!-- 会员注册项 (更新一个全部刷新)  -->	
+    <cache alias="userCustomServiceBean_cache" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">3600</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">1</heap>
+        </resources>
+    </cache>
+    <!-- 会员注册禁止的用户名称 (更新一个全部刷新)  -->	
+    <cache alias="userServiceBean_disableUserName_cache" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">3600</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">1</heap>
+        </resources>
+    </cache>
+    <!-- 开放授权管理 - 刷新令牌 2592000为30天  -->	
+    <cache alias="oAuthManage_cache_refreshToken" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">2592000</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">99999999</heap>
+        </resources>
+    </cache>
+    <!-- 开放授权管理 - 访问令牌 7200为两小时 -->	
+    <cache alias="oAuthManage_cache_accessToken" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">7200</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">99999999</heap>
+        </resources>
+    </cache>
+	<!-- 开放授权管理 - 第三方用户的唯一标识 过期时间必须和'oAuthManage_cache_refreshToken'一致 -->	
+    <cache alias="oAuthManage_cache_openId" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">2592000</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">99999999</heap>
+        </resources>
+    </cache>
+	<!-- 第三方服务管理 - 微信第三方用户的唯一标识票据 -->	
+    <cache alias="thirdPartyManage_cache_weiXinOpenId" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">300</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">99999999</heap>
+        </resources>
+    </cache>
+ 	<!-- 设置管理 - 用户每分钟提交次数 -->
+    <cache alias="settingManage_cache_submitQuantity" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">60</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">1000000</heap>
+        </resources>
+    </cache>
+	<!-- 短信管理 (更新一个全部刷新) -->
+    <cache alias="smsServiceBean_cache" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">3600</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">1</heap>
+        </resources>
+    </cache>
+	<!-- 绑定手机验证码 -->
+    <cache alias="smsManage_cache_smsCode" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">600</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">100000</heap>
+        </resources>
+    </cache>
+    <!-- 用户发短信次数 -->
+    <cache alias="smsManage_cache_sentSmsCount" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">120</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">100000</heap>
+        </resources>
+    </cache>
+    <!-- 更换绑定手机验证码 -->
+    <cache alias="smsManage_cache_replaceCode" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">10800</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">100000</heap>
+        </resources>
+    </cache>
+  	<!-- 验证码管理 - 生成验证码 -->
+    <cache alias="captchaManage_cache_captcha" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">120</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">1000000</heap>
+        </resources>
+    </cache>
+  	<!-- 话题全文索引定时索引管理 - 重建话题索引任务运行标记 -->
+    <cache alias="topicIndexManage_cache_taskRunMark" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">20</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">1</heap>
+        </resources>
+    </cache>
+	<!-- 问题全文索引定时索引管理 - 重建问题索引任务运行标记 -->
+    <cache alias="questionIndexManage_cache_taskRunMark" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">20</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">1</heap>
+        </resources>
+    </cache>
+	<!-- MySQL备份/还原管理 任务运行标记 -->
+    <cache alias="dataRunMarkManage_cache_taskRunMark" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">20</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">1</heap>
+        </resources>
+    </cache>
+	<!-- 升级管理 任务运行标记 -->
+    <cache alias="upgradeManage_cache_taskRunMark" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">20</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">1</heap>
+        </resources>
+    </cache>
+	<!-- 话题 - 话题缓存 -->
+    <cache alias="topicManage_cache_topic" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">600</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">99999999</heap>
+        </resources>
+    </cache>
+	<!-- 评论 - 评论缓存 -->
+    <cache alias="commentManage_cache_findByCommentId" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">600</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">99999999</heap>
+        </resources>
+    </cache>
+    <!-- 回复 - 回复缓存 -->
+    <cache alias="commentManage_cache_findReplyByReplyId" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">600</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">99999999</heap>
+        </resources>
+    </cache>
+	<!-- 标签 - 查询所有标签 -->
+    <cache alias="findAllTag_cache" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">3600</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">1</heap>
+        </resources>
+    </cache>
+	<!-- 友情链接 - 查询所有友情链接 -->	
+    <cache alias="findAllLinks_cache" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">3600</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">1</heap>
+        </resources>
+    </cache>
+	<!-- 话题展示IP记录 -->	
+    <cache alias="topicManage_cache_ipRecord" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">86400</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">9999999</heap>
+        </resources>
+    </cache>
+	<!-- 问题标签 - 查询所有问题标签 -->	
+    <cache alias="findAllQuestionTag_cache" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">3600</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">1</heap>
+        </resources>
+    </cache>
+	<!-- 问题展示IP记录 -->	
+    <cache alias="questionManage_cache_ipRecord" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">86400</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">9999999</heap>
+        </resources>
+    </cache>
+	<!-- 问题 - 问题缓存 -->	
+    <cache alias="questionManage_cache_findById" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">600</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">99999999</heap>
+        </resources>
+    </cache>
+    <!-- 答案 - 答案缓存 -->	
+    <cache alias="answerManage_cache_findByAnswerId" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">600</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">99999999</heap>
+        </resources>
+    </cache>
+    <!-- 答案回复 - 答案回复缓存 -->	
+    <cache alias="answerManage_cache_findReplyByReplyId" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">600</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">99999999</heap>
+        </resources>
+    </cache>
+    <!-- 根据问题Id查询问题标签关联 -->	
+    <cache alias="questionManage_cache_findQuestionTagAssociationByQuestionId" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">600</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">99999999</heap>
+        </resources>
+    </cache>
+	<!-- 根据用户名称查询回答总数 -->	
+    <cache alias="answerManage_cache_answerCount" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">3600</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">900000</heap>
+        </resources>
+    </cache>
+	<!-- 红包 - 根据Id查询发红包缓存 -->	
+    <cache alias="redEnvelopeManage_cache_findById" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">600</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">99999999</heap>
+        </resources>
+    </cache>
+	<!-- 红包 - 根据Id查询收红包缓存 -->	
+    <cache alias="redEnvelopeManage_cache_findByReceiveRedEnvelopeId" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">600</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">99999999</heap>
+        </resources>
+    </cache>
+	<!-- 查询员工安全摘要 -->	
+    <cache alias="staffManage_cache_staffSecurityDigest" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">3600</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">900000</heap>
+        </resources>
+    </cache>
+	<!-- 员工管理 - 员工登陆错误总数 -->	
+    <cache alias="staffManage_cache_loginFailureCount" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">120</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">100000</heap>
+        </resources>
+    </cache>
+	<!-- 查询用户状态 -->	
+    <cache alias="userManage_cache_userState" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">3600</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">900000</heap>
+        </resources>
+    </cache>
+	<!-- 根据用户Id查询当前用户 -->	
+    <cache alias="userManage_cache_findUserById" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">3600</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">900000</heap>
+        </resources>
+    </cache>
+	<!-- 根据用户名称查询当前用户 -->	
+    <cache alias="userManage_cache_findUserByUserName" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">3600</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">900000</heap>
+        </resources>
+    </cache>
+    <!-- 根据用户名称查询角色组 -->	
+    <cache alias="userRoleManage_cache_findRoleGroupByUserName" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">3600</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">900000</heap>
+        </resources>
+    </cache>
+   	<!-- 查询未读私信数量 -->	
+    <cache alias="privateMessageManage_cache_findUnreadPrivateMessageByUserId" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">3600</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">900000</heap>
+        </resources>
+    </cache>
+	<!-- 根据用户Id查询最早的未读系统通知Id -->	
+    <cache alias="systemNotifyManage_cache_findMinUnreadSystemNotifyIdByUserId" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">3600</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">900000</heap>
+        </resources>
+    </cache>
+	<!-- 根据用户Id查询最大的已读系统通知Id -->	
+    <cache alias="systemNotifyManage_cache_findMaxReadSystemNotifyIdByUserId" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">3600</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">900000</heap>
+        </resources>
+    </cache>
+	<!-- 根据起始系统通知Id查询系统通知数量 -->	
+    <cache alias="systemNotifyManage_cache_findSystemNotifyCountBySystemNotifyId" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">3600</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">900000</heap>
+        </resources>
+    </cache>
+	<!-- 根据起始系统通知发送时间查询系统通知数量 -->	
+    <cache alias="systemNotifyManage_cache_findSystemNotifyCountBySendTime" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">3600</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">900000</heap>
+        </resources>
+    </cache>
+    <!-- 根据Id查询系统通知 -->	
+    <cache alias="systemNotifyManage_cache_findById" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">3600</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">900000</heap>
+        </resources>
+    </cache>
+    <!-- 根据用户Id查询未读提醒数量 -->	
+    <cache alias="remindManage_cache_findUnreadRemindByUserId" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">3600</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">900000</heap>
+        </resources>
+    </cache>
+	<!-- 根据Id查询话题收藏 -->	
+    <cache alias="favoriteManage_cache_findTopicFavoriteById" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">3600</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">900000</heap>
+        </resources>
+    </cache>
+	<!-- 根据话题Id查询被收藏数量 -->	
+    <cache alias="favoriteManage_cache_findFavoriteCountByTopicId" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">3600</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">900000</heap>
+        </resources>
+    </cache>
+	<!-- 根据Id查询话题点赞 -->	
+    <cache alias="likeManage_cache_findTopicLikeById" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">3600</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">900000</heap>
+        </resources>
+    </cache>
+    <!-- 根据话题Id查询被点赞数量 -->	
+    <cache alias="likeManage_cache_findLikeCountByTopicId" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">3600</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">900000</heap>
+        </resources>
+    </cache>
+	<!-- 根据Id查询问题收藏 -->	
+    <cache alias="favoriteManage_cache_findQuestionFavoriteById" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">3600</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">900000</heap>
+        </resources>
+    </cache>
+	<!-- 根据问题Id查询被收藏数量 -->	
+    <cache alias="favoriteManage_cache_findFavoriteCountByQuestionId" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">3600</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">900000</heap>
+        </resources>
+    </cache>
+	<!-- 根据Id查询关注 -->	
+    <cache alias="followManage_cache_findById" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">3600</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">900000</heap>
+        </resources>
+    </cache>
+	<!-- 根据用户名称查询关注总数 -->	
+    <cache alias="followManage_cache_followCount" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">3600</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">900000</heap>
+        </resources>
+    </cache>
+	<!-- 根据用户名称查询粉丝总数 -->	
+    <cache alias="followerManage_cache_followerCount" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">3600</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">900000</heap>
+        </resources>
+    </cache>
+	<!-- 我关注的用户的更新标记 -->	
+    <cache alias="followManage_cache_userUpdateFlag" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">86400</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">900000</heap>
+        </resources>
+    </cache>
+	<!-- 根据用户名称查询所有关注 -->	
+    <cache alias="followManage_cache_findAllFollow" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">3600</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">900000</heap>
+        </resources>
+    </cache>
+	<!-- 查询'话题取消隐藏' -->	
+    <cache alias="topicManage_cache_findTopicUnhideById" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">3600</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">900000</heap>
+        </resources>
+    </cache>
+	<!-- 查询用户是否评论话题 -->	
+    <cache alias="topicManage_cache_findWhetherCommentTopic" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">3600</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">900000</heap>
+        </resources>
+    </cache>
+	<!-- 解析隐藏标签 -->	
+    <cache alias="topicManage_cache_analysisHiddenTag" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">3600</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">900000</heap>
+        </resources>
+    </cache>
+	<!-- 处理隐藏标签 -->	
+    <cache alias="topicManage_cache_processHiddenTag" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">1800</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">900000</heap>
+        </resources>
+    </cache>
+    <!-- 处理视频播放器标签 -->	
+    <cache alias="mediaProcessQueueManage_cache_processVideoPlayer" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">1800</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">900000</heap>
+        </resources>
+    </cache>
+	<!-- 处理视频信息 -->	
+    <cache alias="mediaProcessQueueManage_cache_processVideoInfo" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">1800</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">900000</heap>
+        </resources>
+    </cache>
+	<!-- 解析解析上传的文件完整路径名称 -->	
+    <cache alias="topicManage_cache_analysisFullFileName" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">3600</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">900000</heap>
+        </resources>
+    </cache>
+	<!-- 处理处理上传的文件完整路径名称 -->	
+    <cache alias="topicManage_cache_processFullFileName" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">1800</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">900000</heap>
+        </resources>
+    </cache>
+	<!-- 标记修改话题状态 -->	
+    <cache alias="topicManage_cache_markUpdateTopicStatus" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">3600</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">900000</heap>
+        </resources>
+    </cache>
+	<!-- 查询会员卡 -->	
+    <cache alias="membershipCardManage_cache_findById" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">3600</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">900000</heap>
+        </resources>
+    </cache>
+	<!-- 查询会员卡规格 -->	
+    <cache alias="membershipCardManage_cache_findSpecificationByMembershipCardId" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">3600</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">900000</heap>
+        </resources>
+    </cache>
+     <!-- 查询启用的长期会员卡赠送任务 (更新一个全部刷新) -->	
+    <cache alias="membershipCardGiftTaskBean_cache" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">60</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">1</heap>
+        </resources>
+    </cache>
+    <!-- 查询查询会员卡赠送项 -->		
+    <cache alias="membershipCardGiftTaskManage_cache_findMembershipCardGiftItemById" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">600</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">900000</heap>
+        </resources>
+    </cache>
+	<!-- 支付接口 (更新一个全部刷新) -->	
+    <cache alias="paymentServiceBean_cache" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">3600</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">100000</heap>
+        </resources>
+    </cache>
+	<!-- 第三方登录接口 -->	
+    <cache alias="thirdPartyLoginServiceBean_cache" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">3600</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">1</heap>
+        </resources>
+    </cache>
+	<!-- 媒体处理 - 查询媒体处理设置 -->	
+    <cache alias="mediaProcessServiceBean_cache_mediaProcessSetting" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">3600</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">1</heap>
+        </resources>
+    </cache>
+	<!-- 媒体处理 - 查询待处理媒体 (更新一个全部刷新) -->	
+    <cache alias="mediaProcessServiceBean_cache_mediaProcessQueue" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">3600</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">100000</heap>
+        </resources>
+    </cache>
+    <!-- 根据文件名称查询媒体处理 -->	
+    <cache alias="mediaProcessQueueManage_cache_findMediaProcessQueueByFileName" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">600</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">900000</heap>
+        </resources>
+    </cache>
+    <!-- 请求的唯一标识 -->	
+    <cache alias="mediaProcessQueueManage_cache_nonce" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">1200</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">900000</heap>
+        </resources>
+    </cache>
+	<!-- 文件存储系统接口 (更新一个全部刷新) -->	
+    <cache alias="fileSystemServiceBean_cache" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">3600</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">100000</heap>
+        </resources>
+    </cache>
+	<!-- SeaweedFS文件存储系统管理 - 同步任务运行标记 -->	
+    <cache alias="seaweedFSManage_cache_syncTaskRunMark" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">1800</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">1</heap>
+        </resources>
+    </cache>
+	<!-- SeaweedFS文件存储系统管理 - 已同步文件数量 -->	
+    <cache alias="seaweedFSManage_cache_syncFileCount" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">86400</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">1</heap>
+        </resources>
+    </cache>
+	<!-- MinIO文件存储系统管理 - 同步任务运行标记 -->	
+    <cache alias="minioManage_cache_syncTaskRunMark" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">1800</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">1</heap>
+        </resources>
+    </cache>
+	<!-- MinIO文件存储系统管理 - 已同步文件数量 -->	
+    <cache alias="minioManage_cache_syncFileCount" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">86400</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">1</heap>
+        </resources>
+    </cache>
+	<!-- 阿里云OSS文件存储系统管理 - 同步任务运行标记 -->	
+    <cache alias="ossManage_cache_syncTaskRunMark" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">1800</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">1</heap>
+        </resources>
+    </cache>
+	<!-- 阿里云OSS文件存储系统管理 - 已同步文件数量 -->	
+    <cache alias="ossManage_cache_syncFileCount" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">86400</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">1</heap>
+        </resources>
+    </cache>
+	<!-- 阿里云OSS文件存储系统管理 - 设置阿里云OSS防盗链文件权限'运行标记 -->	
+    <cache alias="ossManage_cache_ossSecureLinkFileACLRunMark" uses-template="template">
+        <expiry>
+            <!-- 通过ttl指定了cache过期时间,java.wechatutil.concurrent.TimeUnit中的属性，单位/秒 -->
+            <ttl unit="seconds">1800</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">1</heap>
+        </resources>
+    </cache>
+
+</config>

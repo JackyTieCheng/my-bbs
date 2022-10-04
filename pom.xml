@@ -1,0 +1,473 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>bbs</groupId>
+	<artifactId>bbs-pro</artifactId>
+	<version>5.7</version>
+ 
+	<properties>
+    	<webVersion>3.1</webVersion>
+    	<java.version>1.8</java.version>
+    	<!-- 声明项目配置依赖编码格式为 utf-8 -->
+    	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<!-- 指定log4j2版本 -->
+		<log4j2.version>2.17.1</log4j2.version>
+	</properties>
+ 
+	<parent>
+		<!-- 依赖管理，引入以后在声明其它dependency的时候就不需要version -->
+    	<groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.5.3</version>
+    </parent>
+	<dependencies>
+		<!-- 对web开发的支持，包含了spring webmvc和tomcat等web开发的特性 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<exclusions>
+		        <exclusion>
+		            <groupId>com.vaadin.external.google</groupId>
+		            <artifactId>android-json</artifactId>
+		        </exclusion>
+		    </exclusions>
+		</dependency>
+		<dependency>
+		    <groupId>junit</groupId>
+		    <artifactId>junit</artifactId>
+		    <scope>test</scope>
+		</dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+            <!-- 排除 Spring-boot-starter 默认的日志配置 -->
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-freemarker</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-loader</artifactId>
+		</dependency>
+	
+		
+		<dependency>
+		    <groupId>org.springframework.security.oauth</groupId>
+		    <artifactId>spring-security-oauth2</artifactId>
+		    <version>2.5.1.RELEASE</version>
+		</dependency>
+
+        <!-- 引入log4j2依赖 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-log4j2</artifactId>
+        </dependency>
+        <dependency>
+		    <groupId>org.apache.logging.log4j</groupId>
+		    <artifactId>log4j-jcl</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.logging.log4j</groupId>
+		    <artifactId>log4j-web</artifactId>
+		</dependency>
+		<!-- log4j转log4j2 -->
+		<dependency>
+		    <groupId>org.apache.logging.log4j</groupId>
+		    <artifactId>log4j-1.2-api</artifactId>
+		</dependency>
+        
+        
+        
+        
+        
+		<!-- DevTools in Spring Boot 项目热部署 启动spring-boot-devtools热部署时,类型转换可能会发生java.lang.ClassCastException异常
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+		</dependency> -->
+		<dependency>
+		     <groupId>org.springframework.boot</groupId>
+		     <artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>mysql</groupId>
+		    <artifactId>mysql-connector-java</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>com.zaxxer</groupId>
+		    <artifactId>HikariCP</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>com.github.ulisesbocchio</groupId>
+		    <artifactId>jasypt-spring-boot-starter</artifactId>
+		    <version>3.0.3</version>
+		</dependency>
+		<dependency>
+		    <groupId>commons-codec</groupId>
+		    <artifactId>commons-codec</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.commons</groupId>
+		    <artifactId>commons-csv</artifactId>
+		    <version>1.8</version>
+		</dependency>
+		<dependency>
+		    <groupId>commons-io</groupId>
+		    <artifactId>commons-io</artifactId>
+		    <version>2.10.0</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.commons</groupId>
+		    <artifactId>commons-lang3</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.commons</groupId>
+		    <artifactId>commons-text</artifactId>
+		    <version>1.9</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.commons</groupId>
+		    <artifactId>commons-compress</artifactId>
+		    <version>1.21</version>
+		</dependency>
+
+
+		<dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-cache</artifactId>
+        </dependency>
+        <!-- Ehcache支持 -->
+		<dependency>
+		    <groupId>org.ehcache</groupId>
+		    <artifactId>ehcache</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>javax.cache</groupId>
+		    <artifactId>cache-api</artifactId>
+		</dependency>
+
+		<dependency>
+		    <groupId>org.quartz-scheduler</groupId>
+		    <artifactId>quartz</artifactId>
+		</dependency>
+		
+		<dependency>
+		    <groupId>cglib</groupId>
+		    <artifactId>cglib-nodep</artifactId>
+		    <version>3.3.0</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.lionsoul</groupId>
+		    <artifactId>ip2region</artifactId>
+		    <version>1.7.2</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.apache.httpcomponents</groupId>
+		    <artifactId>httpmime</artifactId>
+		</dependency>
+		<!-- AWS S3需要httpclient-4.5.7 和 httpcore-4.4.9及以上版本 -->
+		<dependency>
+		    <groupId>org.apache.httpcomponents</groupId>
+		    <artifactId>httpclient</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.httpcomponents</groupId>
+		    <artifactId>httpcore</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>joda-time</groupId>
+		    <artifactId>joda-time</artifactId>
+		    <version>2.10.10</version>
+		</dependency>
+		<dependency>
+		    <groupId>com.google.guava</groupId>
+		    <artifactId>guava</artifactId>
+		    <version>30.1.1-jre</version>
+		</dependency>
+		<dependency>
+		    <groupId>eu.bitwalker</groupId>
+		    <artifactId>UserAgentUtils</artifactId>
+		    <version>1.21</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.jsoup</groupId>
+		    <artifactId>jsoup</artifactId>
+		    <version>1.14.1</version>
+		</dependency>
+		<dependency>
+		    <groupId>com.alipay.sdk</groupId>
+		    <artifactId>alipay-sdk-java</artifactId>
+		    <version>4.5.0.ALL</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.apache.lucene</groupId>
+		    <artifactId>lucene-analyzers-common</artifactId>
+		    <version>7.2.1</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.lucene</groupId>
+		    <artifactId>lucene-core</artifactId>
+		    <version>7.2.1</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.lucene</groupId>
+		    <artifactId>lucene-expressions</artifactId>
+		    <version>7.2.1</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.lucene</groupId>
+		    <artifactId>lucene-facet</artifactId>
+		    <version>7.2.1</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.lucene</groupId>
+		    <artifactId>lucene-highlighter</artifactId>
+		    <version>7.2.1</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.lucene</groupId>
+		    <artifactId>lucene-join</artifactId>
+		    <version>7.2.1</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.lucene</groupId>
+		    <artifactId>lucene-memory</artifactId>
+		    <version>7.2.1</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.lucene</groupId>
+		    <artifactId>lucene-queries</artifactId>
+		    <version>7.2.1</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.lucene</groupId>
+		    <artifactId>lucene-queryparser</artifactId>
+		    <version>7.2.1</version>
+		</dependency>
+		
+		
+		
+		
+		<dependency>
+		    <groupId>com.aliyun</groupId>
+		    <artifactId>aliyun-java-sdk-dysmsapi</artifactId>
+		    <version>1.1.0</version>
+		</dependency>
+		<dependency>
+		    <groupId>com.aliyun</groupId>
+		    <artifactId>aliyun-java-sdk-core</artifactId>
+		    <version>4.5.12</version>
+		</dependency>
+		<!-- aliyun-java-sdk-core需要 -->
+		<dependency>
+		    <groupId>io.opentracing</groupId>
+		    <artifactId>opentracing-util</artifactId>
+		    <version>0.33.0</version>
+		</dependency>
+		<!-- aliyun-java-sdk-core需要 -->
+		<dependency>
+		    <groupId>io.opentracing</groupId>
+		    <artifactId>opentracing-api</artifactId>
+		    <version>0.33.0</version>
+		</dependency>
+        <!-- aliyun-java-sdk-core需要 -->
+		<dependency>
+		    <groupId>io.opentracing</groupId>
+		    <artifactId>opentracing-noop</artifactId>
+		    <version>0.33.0</version>
+		</dependency>
+		
+		
+		<dependency>
+		    <groupId>com.github.penggle</groupId>
+		    <artifactId>kaptcha</artifactId>
+		    <version>2.3.2</version>
+		</dependency>
+		<dependency>
+		    <groupId>net.coobird</groupId>
+		    <artifactId>thumbnailator</artifactId>
+		    <version>0.4.14</version>
+		</dependency>
+				
+		
+		 
+		<!-- 本地JAR -->
+		<dependency>
+            <groupId>org.queryString</groupId>
+            <artifactId>queryUtil</artifactId>
+            <version>9.3.8</version>
+            <scope>system</scope>
+            <systemPath>${pom.basedir}/lib/queryUtil-9.3.8.jar</systemPath>
+            <exclusions>
+				<exclusion>
+					<groupId>*</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-mobile-device</artifactId>
+            <version>2.0.0.M3</version>
+            <scope>system</scope>
+            <systemPath>${pom.basedir}/lib/spring-mobile-device-2.0.0.M3.jar</systemPath>
+            <exclusions>
+				<exclusion>
+					<groupId>*</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>simpleimage</artifactId>
+            <version>1.2.4</version>
+            <scope>system</scope>
+            <systemPath>${pom.basedir}/lib/simpleimage-1.2.4.jar</systemPath>
+             <exclusions>
+				<exclusion>
+					<groupId>*</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+        </dependency>
+   		<dependency>
+            <groupId>orgwltea</groupId>
+            <artifactId>IKAnalyzer</artifactId>
+            <version>6.0</version>
+            <scope>system</scope>
+            <systemPath>${pom.basedir}/lib/IKAnalyzer6.0.jar</systemPath>
+             <exclusions>
+				<exclusion>
+					<groupId>*</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+        </dependency>
+        <!-- thumbnailator需要 -->
+		<dependency>
+            <groupId>com.sun.media</groupId>
+            <artifactId>jai_codec</artifactId>
+            <version>1.1.3</version>
+            <scope>system</scope>
+            <systemPath>${pom.basedir}/lib/jai_codec-1.1.3.jar</systemPath>
+             <exclusions>
+				<exclusion>
+					<groupId>*</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+        </dependency>
+        <!-- thumbnailator需要 -->
+        <dependency>
+            <groupId>com.sun.media</groupId>
+            <artifactId>jai_core</artifactId>
+            <version>1.1.3</version>
+            <scope>system</scope>
+            <systemPath>${pom.basedir}/lib/jai_core-1.1.3.jar</systemPath>
+             <exclusions>
+				<exclusion>
+					<groupId>*</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+        </dependency>
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>easyexcel</artifactId>
+			<version>3.1.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+	
+
+	
+	<build>
+	    <plugins>
+	    	<plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.0.0</version>
+                <executions>
+                	<execution>
+                		<goals>
+                			<goal>java</goal>
+                		</goals>
+                		<!-- 生命周期 install -->
+                		<phase>compile</phase>
+                	</execution>
+                </executions>
+                <configuration>
+	                <mainClass>cms.Application</mainClass>
+	                <cleanupDaemonThreads>false</cleanupDaemonThreads>
+	                <arguments>
+                    	<argument>maven</argument><!-- 标记由maven插件启动 -->
+                    </arguments>
+	            </configuration>
+            </plugin>
+	    
+	    
+	    	<plugin>
+		        <groupId>org.springframework.boot</groupId>
+		        <artifactId>spring-boot-maven-plugin</artifactId>
+		        <configuration>
+		        	<!-- 本地JAR打包配置参数一 -->
+	                <includeSystemScope>true</includeSystemScope>
+	                <mainClass>cms.Application</mainClass>
+	            </configuration>     
+		        <executions>
+		            <execution>
+		                <goals>
+		                    <goal>repackage</goal>
+		                </goals>
+		            </execution>
+		        </executions>
+		    </plugin>
+	    	<plugin>
+		        <groupId>org.apache.maven.plugins</groupId>
+		        <artifactId>maven-compiler-plugin</artifactId>
+		        <configuration>
+		            <source>1.8</source>
+		            <target>1.8</target>
+		            <compilerArguments>
+		            	<!-- 本地JAR打包配置参数二 -->
+						<extdirs>${pom.basedir}/lib</extdirs>
+					</compilerArguments>
+		        </configuration>
+		    </plugin>
+		    <plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<!-- 打包包含空文件夹 -->
+		        	<includeEmptyDirectories>true</includeEmptyDirectories>
+		          	<failOnMissingWebXml>false</failOnMissingWebXml>
+		          	
+		          	<!-- excludes\includes 是根据编译后的classes这个路径计算的 -->
+		          	<!-- 排除.gitkeep文件 -->
+					<excludes>
+						<exclude>**/*.gitkeep</exclude>
+					</excludes>
+				</configuration>
+			  </plugin>
+	    </plugins>
+	</build>
+</project>
